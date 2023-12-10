@@ -23,7 +23,7 @@ def driver_setup():
     return driver_chrome
 
 def driver_code(driver):
-    with open('../../data/interim/has_scraped.json') as json_file:
+    with open('../../data/interim/scraping/has_scraped.json') as json_file:
         links = json.load(json_file)
 
     d = dict()
@@ -91,7 +91,7 @@ while True:
     print('Driver setup complete')
     f.get_urls(driver_setup(),link)
     print('URLs are scraped')
-    f.create_link_queue('../../data/interim/links.txt')
+    f.create_link_queue('../../data/interim/scraping/links.txt')
     print('Created Link Queue')
     f.get_images(driver_setup())
     print('Images are scraped')

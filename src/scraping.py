@@ -16,7 +16,7 @@ def create_link_queue(link_file):
             link = "https://" + link
             d[link] = False
 
-    with open("../../data/interim/has_scraped.json", 'wb') as f:
+    with open("../../data/interim/scraping/has_scraped.json", 'wb') as f:
         f.write(json.dumps(d, indent = 4, ensure_ascii=False).encode("utf8"))
 
 
@@ -115,21 +115,21 @@ def grab_preparation(driver):
 def save_and_remove_from_queue(link,dict_to_save):
     #creates the new data file
     json_object = json.dumps({}, indent=4)
-    with open("../../data/raw/data.json", "w") as outfile:
+    with open("../../data/raw/data_raw.json", "w") as outfile:
         outfile.write(json_object)
     #Saves the newly scaped data
-    with open('../../data/raw/data.json', 'r', encoding='utf8') as json_file:
+    with open('../../data/raw/data_raw.json', 'r', encoding='utf8') as json_file:
         data_json = json.load(json_file)
     data_json[link] = dict_to_save
 
-    with open("../../data/raw/data.json", 'wb') as f:
+    with open("../../data/raw/data_raw.json", 'wb') as f:
         f.write(json.dumps(data_json, indent = 4, ensure_ascii=False).encode("utf8"))
 
-    with open('../../data/interim/has_scraped.json','r') as json_file:
+    with open('../../data/interim/scraping/has_scraped.json','r') as json_file:
         has_scraped = json.load(json_file)
     has_scraped[link] = True
     
-    with open("../../data/interim/has_scraped.json", 'wb') as f:
+    with open("../../data/interim/scraping/has_scraped.json", 'wb') as f:
         f.write(json.dumps(has_scraped, indent = 4, ensure_ascii=False).encode("utf8"))
     
 
@@ -157,7 +157,7 @@ def get_urls(driver,link):
         link = elem.get_attribute('innerHTML').split('"')[1]
         s.add(link)
 
-    with open('../../data/interim/links.txt','w') as f:
+    with open('../../data/interim/scraping/links.txt','w') as f:
         for elem in s:
             f.write(f'tasty.co{elem}\n')
 
@@ -201,7 +201,7 @@ def get_images(driver):
                 picture = None
         li[href] = picture
 
-    with open("../../data/interim/images_links.json", "w") as outfile: 
+    with open("../../data/interim/scraping/images_links.json", "w") as outfile: 
         json.dump(li, outfile,indent = 4,ensure_ascii=False)
     
     for i,j in li.items():
