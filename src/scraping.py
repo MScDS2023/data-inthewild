@@ -7,7 +7,6 @@ import time
 import json
 import requests
 import os
-
 def create_link_queue(link_file):
     d = dict()
     with open(link_file, "r") as f:
