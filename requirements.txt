@@ -12,3 +12,7 @@ shapely==2.0.2
 tensorflow==2.15.0
 jsons==1.6.3
 Cartopy==0.22.0
+spacy==3.7.2
+python-dotenv==1.0.0
+webdriver-manager==4.0.1
+selenium==4.16.0
