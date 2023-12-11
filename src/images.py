@@ -20,41 +20,28 @@ def create_train_test(config, path, data_key):
         data = json.load(f)
 
         link = "https://tasty.co/recipe/"
-        X = []
+        X_unfiltered = []
         Y_unfiltered = []
-        all_ingredients = []
 
-        for key in os.listdir("../data/images"):
+        for key in os.listdir("../../data/images"):
             
             d_key = key.replace(".jpg", "")
             d_key = link + d_key 
             if d_key in data:
                 Y_unfiltered.append(data[d_key][data_key])
-                X.append(key)
-                all_ingredients.extend(data[d_key][data_key])
+                X_unfiltered.append(key)
 
-        ingredient_counts = Counter(all_ingredients)
-
+        X = []
+        Y = []
+        for input, label in zip(X_unfiltered, Y_unfiltered):
+            if label == []:
+                continue
+            X.append(input)
+            Y.append(label)
         
-        
-        ingredients_to_include = set(
-            [
-                ingredient 
-                for ingredient, count 
-                    in ingredient_counts.items()
-                if count >= config["MIN_AMOUNT_INGREDIENT"]
-            ]
-        )
-        
-        Y = [
-            list(ingredients_to_include.intersection(ingredients))
-            for ingredients
-                in Y_unfiltered
-        ]
-
         X_train, X_val, y_train, y_val = train_test_split(X,Y, test_size=0.2, random_state=44)
-        X_train = [os.path.join('../data/images/', str(f)) for f in X_train]
-        X_val = [os.path.join('../data/images/', str(f)) for f in X_val]
+        X_train = [os.path.join('../../data/images/', str(f)) for f in X_train]
+        X_val = [os.path.join('../../data/images/', str(f)) for f in X_val]
         return X_train, X_val, y_train, y_val
     
 def parse_function(filename, label):
@@ -293,10 +280,10 @@ def plot(img_path, prediction, truth, model_name):
     style.use('default')
     plt.figure(figsize=(8,4))
     plt.imshow(Image.open(img_path))
-    dish_name = img_path.split('../data/images/')[1].replace(".jpg","")
+    dish_name = img_path.split('../../data/images/')[1].replace(".jpg","")
     plt.title(f"Dish: {dish_name} \n\nTruth: {truth} \n\nPredictions: {prediction}")
 
-    save_dir = f"../data/predicted_images/{model_name}/"
+    save_dir = f"../../visualizations/images/predicted_images/{model_name}/"
     
     # Create the directory if it doesn't exist
     if not os.path.exists(save_dir):

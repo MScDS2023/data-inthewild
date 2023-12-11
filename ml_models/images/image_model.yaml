@@ -1,4 +1,4 @@
-BATCH_SIZE : 32 # Big enough to measure an F1-score
+BATCH_SIZE : 96 # Big enough to measure an F1-score
 SHUFFLE_BUFFER_SIZE : 4000 #Larger than the dataset to ensure complete shuffling
 LR : "1e-5" # Keep it small when transfer learning
 EPOCHS : 25
